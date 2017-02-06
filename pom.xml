@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.wudaosoft</groupId>
+	<artifactId>wudaosoft-commons</artifactId>
+	<version>1.0.0</version>
+	<name>wudaosoft-commons</name>
+	<description>Wudaosoft Commons API</description>
+	<url>https://github.com/changsoul/wudaosoft-commons</url>
+	<inceptionYear>2012</inceptionYear>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<scm>
+		<url>https://github.com/changsoul/wudaosoft-commons</url>
+		<connection>
+			scm:git:https://git@github.com/changsoul/wudaosoft-commons.git
+		</connection>
+	</scm>
+	<organization>
+		<name>Wudao Software Studio</name>
+		<url>http://www.wudaosoft.com</url>
+	</organization>
+	<developers>
+		<developer>
+			<id>wenshao</id>
+			<name>wenshao</name>
+			<email>szujobs@hotmail.com</email>
+		</developer>
+		<developer>
+			<id>changsoul</id>
+			<name>changsoul</name>
+			<email>changsoul.wu@gmail.com</email>
+		</developer>
+	</developers>
+	<licenses>
+		<license>
+			<name>Apache 2</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+</project>
