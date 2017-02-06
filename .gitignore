@@ -1,13 +1,12 @@
 # IDE for Developer Tools Profiles
 /target/
 /bin/
-/libs/
-/lib/
-.settings/
+/.settings/
+/.classpath
+/.project
 .idea/
 .svn/
-.classpath
-.project
+.DS_Store/
 *.iml
 
 *.class
