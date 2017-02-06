@@ -1,3 +1,15 @@
+# IDE for Developer Tools Profiles
+/target/
+/bin/
+/libs/
+/lib/
+.settings/
+.idea/
+.svn/
+.classpath
+.project
+*.iml
+
 *.class
 
 # Mobile Tools for Java (J2ME)
