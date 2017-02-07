@@ -6,7 +6,7 @@
 	<version>1.0.0</version>
 	<name>wudaosoft-commons</name>
 	<description>Wudaosoft Commons Library</description>
-	<url>https://github.com/changsoul/wudaosoft-commons</url>
+	<url>http://www.wudaosoft.com</url>
 	<inceptionYear>2012</inceptionYear>
 	<properties>
 		<java.version>1.6</java.version>
@@ -68,6 +68,13 @@
 					<source>${java.version}</source>
 					<target>${java.version}</target>
 				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.codehaus.plexus</groupId>
+						<artifactId>plexus-compiler-javac</artifactId>
+						<version>2.7</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -85,6 +92,13 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
+			</plugin>
+			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<executions>
 					<execution>
@@ -92,6 +106,9 @@
 						<goals>
 							<goal>jar</goal>
 						</goals>
+						<configuration>
+							<additionalparam>-Xdoclint:none</additionalparam>
+						</configuration>
 					</execution>
 				</executions>
 				<configuration>
@@ -99,6 +116,7 @@
 					<charset>UTF-8</charset>
 					<encoding>UTF-8</encoding>
 					<docencoding>UTF-8</docencoding>
+					<locale>en_US</locale>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -115,6 +133,16 @@
 			</plugin>
 		</plugins>
 	</build>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+		</repository>
+	</distributionManagement>
 	<dependencies>
 		<dependency>
 			<groupId>javax.servlet</groupId>

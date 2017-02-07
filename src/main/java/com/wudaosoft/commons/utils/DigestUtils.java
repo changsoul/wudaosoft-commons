@@ -9,7 +9,7 @@ package com.wudaosoft.commons.utils;
 
 import java.security.MessageDigest;
 
-import sun.misc.BASE64Encoder;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  * <p>消息摘要类,有md5和sha1 </p>
@@ -57,9 +57,7 @@ public class DigestUtils {
 	}
 	
 	private static String encodeBase64(byte[] b) {
-		sun.misc.BASE64Encoder base64Encode = new BASE64Encoder();
-		String str = base64Encode.encode(b);
-		return str;
+		return Base64.encodeBase64String(b);
 	}
     
     /**
