@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.wudaosoft</groupId>
 	<artifactId>wudaosoft-commons</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<name>wudaosoft-commons</name>
 	<description>Wudaosoft Commons Library</description>
 	<url>http://www.wudaosoft.com</url>
