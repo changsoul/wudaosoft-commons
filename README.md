@@ -1,6 +1,6 @@
 # wudaosoft-commons
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.wudaosoft/wudaosoft-commons/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.wudaosoft/wudaosoft-commons/)
-[comment]: [![GitHub release](https://img.shields.io/github/release/wudaosoft/wudaosoft-commons.svg)](https://github.com/wudaosoft/wudaosoft-commons/releases)
+[//]: [![GitHub release](https://img.shields.io/github/release/wudaosoft/wudaosoft-commons.svg)](https://github.com/wudaosoft/wudaosoft-commons/releases)
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 Wudaosoft Common Library.
