@@ -26,7 +26,7 @@ compile 'com.wudaosoft:wudaosoft-commons:1.0.2'
 ```
 ### *License*
 
-wudaosoft-commons is released under the [Apache 2.0 license](license.txt).
+wudaosoft-commons is released under the [Apache 2.0 license](LICENSE).
 
 ```
 Copyright 2009-2017 Wudao Software Studio
