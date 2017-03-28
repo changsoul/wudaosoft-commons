@@ -25,7 +25,7 @@ Wudaosoft Common Library.
 ``` groovy
 compile 'com.wudaosoft:wudaosoft-commons:1.0.2'
 ```
-###*License*
+### *License*
 
 wudaosoft-commons is released under the [Apache 2.0 license](license.txt).
 
