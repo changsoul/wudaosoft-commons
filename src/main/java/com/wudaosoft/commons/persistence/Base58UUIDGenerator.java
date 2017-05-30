@@ -1,5 +1,5 @@
 /* 
- * Copyright(c)2010-2016 WUDAOSOFT.COM
+ * Copyright(c)2010-2017 WUDAOSOFT.COM
  * 
  * Email:changsoul.wu@gmail.com
  * 
@@ -11,7 +11,7 @@ package com.wudaosoft.commons.persistence;
 import java.io.Serializable;
 
 import org.hibernate.HibernateException;
-import org.hibernate.engine.spi.SessionImplementor;
+import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
 
 import com.wudaosoft.commons.utils.UUIDUtils;
@@ -22,9 +22,12 @@ import com.wudaosoft.commons.utils.UUIDUtils;
  */
 public class Base58UUIDGenerator implements IdentifierGenerator {
 
-    @Override
-    public Serializable generate(SessionImplementor session, Object object) throws HibernateException {
-        return UUIDUtils.base58Uuid();
-    }
+	/* (non-Javadoc)
+	 * @see org.hibernate.id.IdentifierGenerator#generate(org.hibernate.engine.spi.SharedSessionContractImplementor, java.lang.Object)
+	 */
+	@Override
+	public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
+		return UUIDUtils.base58Uuid();
+	}
 
 }

@@ -74,16 +74,22 @@ public class DynamicSpecifications {
 		switch (filter.operator) {
 		case EQ:
 			predicate = builder.equal(expression, filter.value);
+			break;
 		case LIKE:
 			predicate = builder.like(expression, "%" + filter.value + "%");
+			break;
 		case GT:
 			predicate = builder.greaterThan(expression, (Comparable) filter.value);
+			break;
 		case LT:
 			predicate = builder.lessThan(expression, (Comparable) filter.value);
+			break;
 		case GTE:
 			predicate = builder.greaterThanOrEqualTo(expression, (Comparable) filter.value);
+			break;
 		case LTE:
 			predicate = builder.lessThanOrEqualTo(expression, (Comparable) filter.value);
+			break;
 		case IN:
 			if (filter.value instanceof Collection<?>) {
 
@@ -118,6 +124,7 @@ public class DynamicSpecifications {
 				if(!ps.isEmpty())
 					predicate = builder.or(ps.toArray(new Predicate[ps.size()]));
 			}
+			break;
 		default:
 			break;
 		}
