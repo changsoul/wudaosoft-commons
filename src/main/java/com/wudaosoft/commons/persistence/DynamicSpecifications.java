@@ -91,22 +91,11 @@ public class DynamicSpecifications {
 			predicate = builder.lessThanOrEqualTo(expression, (Comparable) filter.value);
 			break;
 		case IN:
-			if (filter.value instanceof Collection<?>) {
-
-				Collection<Object> colle = (Collection<Object>) filter.value;
-
-				if (!colle.isEmpty()) {
-					In<Object> in = builder.in(expression);
-
-					Iterator<Object> iter = colle.iterator();
-
-					while (iter.hasNext()) {
-						in.value(iter.next());
-					}
-
-					predicate = in;
-				}
-			}
+			predicate = prossIn(filter, builder, expression);
+			break;
+		case NOTIN:
+			In<Object> in = prossIn(filter, builder, expression);
+			predicate = in == null ? null : in.not();
 			break;
 		case OR:
 
@@ -130,5 +119,28 @@ public class DynamicSpecifications {
 		}
 		
 		return predicate;
+	}
+	
+	@SuppressWarnings("unchecked")
+	protected static In<Object> prossIn(SearchFilter filter, CriteriaBuilder builder, Path<?> expression){
+		if (filter.value instanceof Collection<?>) {
+			
+			Collection<Object> colle = (Collection<Object>) filter.value;
+			
+			if (!colle.isEmpty()) {
+				
+				In<Object> in = builder.in(expression);
+				
+				Iterator<Object> iter = colle.iterator();
+				
+				while (iter.hasNext()) {
+					in.value(iter.next());
+				}
+				
+				return in;
+			}
+		}
+		
+		return null;
 	}
 }

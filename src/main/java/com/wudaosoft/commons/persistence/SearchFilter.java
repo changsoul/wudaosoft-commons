@@ -21,7 +21,7 @@ import com.google.common.collect.Maps;
 public class SearchFilter {
 
 	public enum Operator {
-		EQ, LIKE, GT, LT, GTE, LTE, IN, OR
+		EQ, LIKE, GT, LT, GTE, LTE, IN, NOTIN, OR
 	}
 
 	public String fieldName;
