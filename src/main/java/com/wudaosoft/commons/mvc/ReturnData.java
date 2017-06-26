@@ -12,11 +12,14 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
 /**
  * @author Changsoul Wu
  * 
  */
 @XmlRootElement(name="xml")
+@JacksonXmlRootElement(localName="xml")
 public class ReturnData implements Serializable {
 
 	public static final ReturnData SUCCESS = new ReturnData();
@@ -32,13 +35,13 @@ public class ReturnData implements Serializable {
 	public ReturnData() {
 	}
 
+	public ReturnData(Object data) {
+		this.data = data;
+	}
+	
 	public ReturnData(int ret, String retDes) {
 		this.ret = ret;
 		this.retDes = retDes;
-	}
-
-	public ReturnData(Object data) {
-		this.data = data;
 	}
 
 	public int getRet() {

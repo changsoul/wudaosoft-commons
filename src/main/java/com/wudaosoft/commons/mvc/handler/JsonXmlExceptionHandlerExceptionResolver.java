@@ -66,6 +66,7 @@ public class JsonXmlExceptionHandlerExceptionResolver extends
 	
 	private static final ResultData DEFAULT_ERROR = new ResultData(-1, "unknown error");
 	private static final ResultData NOT_FOUND_ERROR = new ResultData(404, "not found");
+	private static final ModelAndView NOT_FOUND_VIEW = new ModelAndView(JsonXmlExceptionHandlerExceptionResolver.class.getName() + ".not_found_view");
 	private static final ResultData PARAMETER_ERROR = new ParameterException().getResultData();
 	
 	private final static String APPLICATION_JSON_VALUE = "application/json; charset=utf-8";
@@ -120,8 +121,9 @@ public class JsonXmlExceptionHandlerExceptionResolver extends
 
 			try {
 				response.setStatus(404);
+				return NOT_FOUND_VIEW;
 
-				return handleResponseBody(handlerMethod, request, response, exception);
+				//return handleResponseBody(handlerMethod, request, response, exception);
 			} catch (Exception e) {
 				return null;
 			}
@@ -355,7 +357,7 @@ public class JsonXmlExceptionHandlerExceptionResolver extends
 		private final Object returnValue;
 
 		public ReturnValueMethodParameter(Object returnValue) {
-			super(null);
+			super(returnValue.getClass().getConstructors()[0], 0);
 			this.returnValue = returnValue;
 		}
 
