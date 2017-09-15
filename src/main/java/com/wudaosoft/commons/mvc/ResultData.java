@@ -23,6 +23,8 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 public class ResultData implements Serializable {
 
 	private static final long serialVersionUID = -7373727940885790938L;
+	
+	public static final ResultData SUCCESS = new ResultData();
 
 	private int errCode = 0;
 

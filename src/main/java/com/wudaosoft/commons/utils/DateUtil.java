@@ -300,6 +300,36 @@ public class DateUtil {
 		}
 	}
 	
+	public static Date getDayOfStart(Date date) {
+		return getDayOfStart(date, 0);
+	}
+	
+	public static Date getDayOfStart(Date date, int day) {
+		
+		Calendar ca = Calendar.getInstance();
+		ca.setTime(date);
+		if(day != 0)
+			ca.add(Calendar.DAY_OF_MONTH, day);
+		ca.set(Calendar.HOUR_OF_DAY, 0);
+		ca.set(Calendar.MINUTE, 0);
+		ca.set(Calendar.SECOND, 0);
+		ca.set(Calendar.MILLISECOND, 0);
+		
+		return ca.getTime();
+	}
+	
+	public static Date getDayOfEnd(Date date) {
+		
+		Calendar ca = Calendar.getInstance();
+		ca.setTime(date);
+		ca.set(Calendar.HOUR_OF_DAY, 23);
+		ca.set(Calendar.MINUTE, 59);
+		ca.set(Calendar.SECOND, 59);
+		ca.set(Calendar.MILLISECOND, 999);
+		
+		return ca.getTime();
+	}
+	
 	public static void main(String[] args) {
 		System.out.println(DateUtil.yesterDay());
 		System.out.println(DateUtil.today());
