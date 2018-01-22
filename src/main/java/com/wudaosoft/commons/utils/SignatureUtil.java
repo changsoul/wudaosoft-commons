@@ -8,11 +8,10 @@
  
 package com.wudaosoft.commons.utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import com.google.common.collect.Lists;
 
 /** 
  * @author Changsoul Wu
@@ -60,7 +59,7 @@ public class SignatureUtil {
 	 */
 	public static String signature(String accessKey, Map<String, String> params) {
 		
-		List<String> psList = Lists.newArrayList();
+		List<String> psList = new ArrayList<String>(30);
 		
 		psList.add(accessKey);
 		

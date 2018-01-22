@@ -4,7 +4,7 @@
  * Email:changsoul.wu@gmail.com
  * 
  * QQ:275100589
- */ 
+ */
 package com.wudaosoft.commons.persistence;
 
 import java.util.ArrayList;
@@ -19,10 +19,7 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
-
-import com.google.common.collect.Lists;
 
 /**
  * @author Changsoul Wu
@@ -30,22 +27,23 @@ import com.google.common.collect.Lists;
  */
 public class DynamicSpecifications {
 
-	public static <T> Specification<T> bySearchFilter(final Collection<SearchFilter> filters, final Class<T> entityClazz) {
-		
+	public static <T> Specification<T> bySearchFilter(final Collection<SearchFilter> filters,
+			final Class<T> entityClazz) {
+
 		return new Specification<T>() {
 			@Override
 			public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
 				if ((filters != null) && !(filters.isEmpty())) {
 
-					List<Predicate> predicates = Lists.newArrayList();
-					
-					for(SearchFilter filter : filters) {
+					List<Predicate> predicates = new ArrayList<Predicate>(30);
+
+					for (SearchFilter filter : filters) {
 						Predicate p = buildPredicate(filter, root, builder);
-						
-						if(p != null)
+
+						if (p != null)
 							predicates.add(p);
 					}
-					
+
 					// 将所有条件用 and 联合起来
 					if (!predicates.isEmpty()) {
 						return builder.and(predicates.toArray(new Predicate[predicates.size()]));
@@ -56,18 +54,19 @@ public class DynamicSpecifications {
 			}
 		};
 	}
-	
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	protected static Predicate buildPredicate(final SearchFilter filter, final Root<?> root, final CriteriaBuilder builder) {
+	protected static Predicate buildPredicate(final SearchFilter filter, final Root<?> root,
+			final CriteriaBuilder builder) {
 
 		// nested path translate, 如Task的名为"user.name"的filedName,
 		// 转换为Task.user.name属性
-		String[] names = StringUtils.split(filter.fieldName, ".");
+		String[] names = filter.fieldName.split("\\.");
 		Path expression = root.get(names[0]);
 		for (int i = 1; i < names.length; i++) {
 			expression = expression.get(names[i]);
 		}
-		
+
 		Predicate predicate = null;
 
 		// logic operator
@@ -101,46 +100,46 @@ public class DynamicSpecifications {
 
 			if (filter.value instanceof OrFilter) {
 				final List<Predicate> ps = new ArrayList<Predicate>();
-				
-				Iterator<SearchFilter> iter = ((OrFilter)filter.value).getSearchFilters().iterator();
-				
+
+				Iterator<SearchFilter> iter = ((OrFilter) filter.value).getSearchFilters().iterator();
+
 				while (iter.hasNext()) {
 					Predicate p = buildPredicate(iter.next(), root, builder);
-					if(p != null)
+					if (p != null)
 						ps.add(p);
 				}
-				
-				if(!ps.isEmpty())
+
+				if (!ps.isEmpty())
 					predicate = builder.or(ps.toArray(new Predicate[ps.size()]));
 			}
 			break;
 		default:
 			break;
 		}
-		
+
 		return predicate;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	protected static In<Object> prossIn(SearchFilter filter, CriteriaBuilder builder, Path<?> expression){
+	protected static In<Object> prossIn(SearchFilter filter, CriteriaBuilder builder, Path<?> expression) {
 		if (filter.value instanceof Collection<?>) {
-			
+
 			Collection<Object> colle = (Collection<Object>) filter.value;
-			
+
 			if (!colle.isEmpty()) {
-				
+
 				In<Object> in = builder.in(expression);
-				
+
 				Iterator<Object> iter = colle.iterator();
-				
+
 				while (iter.hasNext()) {
 					in.value(iter.next());
 				}
-				
+
 				return in;
 			}
 		}
-		
+
 		return null;
 	}
 }

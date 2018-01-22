@@ -330,6 +330,12 @@ public class DateUtil {
 		return ca.getTime();
 	}
 	
+	public static Date timestampToDate(long timestamp) {
+		Calendar ca = Calendar.getInstance();
+		ca.setTimeInMillis(timestamp);
+		return ca.getTime();
+	}
+	
 	public static void main(String[] args) {
 		System.out.println(DateUtil.yesterDay());
 		System.out.println(DateUtil.today());

@@ -13,7 +13,7 @@ import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 
-import org.apache.commons.lang3.Validate;
+import org.springframework.util.Assert;
 
 /**
  * 支持SHA-1/MD5消息摘要的工具类.
@@ -73,7 +73,7 @@ public class Digests {
 	 * @param numBytes byte数组的大小
 	 */
 	public static byte[] generateSalt(int numBytes) {
-		Validate.isTrue(numBytes > 0, "numBytes argument must be a positive integer (1 or larger)", numBytes);
+		Assert.isTrue(numBytes > 0, "numBytes argument must be a positive integer (1 or larger)");
 
 		byte[] bytes = new byte[numBytes];
 		random.nextBytes(bytes);

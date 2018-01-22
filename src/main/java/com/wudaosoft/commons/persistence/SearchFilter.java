@@ -4,15 +4,14 @@
  * Email:changsoul.wu@gmail.com
  * 
  * QQ:275100589
- */ 
+ */
 package com.wudaosoft.commons.persistence;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.google.common.collect.Maps;
+import org.springframework.util.StringUtils;
 
 /**
  * @author Changsoul Wu
@@ -38,13 +37,13 @@ public class SearchFilter {
 	 * searchParams中key的格式为OPERATOR_FIELDNAME
 	 */
 	public static Map<String, SearchFilter> parse(Map<String, Object> searchParams) {
-		Map<String, SearchFilter> filters = Maps.newHashMap();
+		Map<String, SearchFilter> filters = new HashMap<String, SearchFilter>(30);
 
 		for (Entry<String, Object> entry : searchParams.entrySet()) {
 			// 过滤掉空值
 			String key = entry.getKey();
 			Object value = entry.getValue();
-			if (StringUtils.isBlank((String) value)) {
+			if (!StringUtils.hasText((String) value)) {
 				continue;
 			}
 

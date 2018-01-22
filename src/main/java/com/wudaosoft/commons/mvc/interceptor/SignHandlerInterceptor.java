@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.google.common.collect.Lists;
 import com.wudaosoft.commons.mvc.exception.ServiceException;
 import com.wudaosoft.commons.utils.SignatureUtil;
 
@@ -74,7 +73,7 @@ public class SignHandlerInterceptor extends HandlerInterceptorAdapter {
 
 			String sign = request.getParameter(signKey);
 
-			List<String> params = Lists.newArrayList();
+			List<String> params = new ArrayList<String>(30);
 
 			for (Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
 
