@@ -15,6 +15,7 @@
  */
 package com.wudaosoft.commons.mvc.rest;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.web.BasicErrorController;
 import org.springframework.boot.autoconfigure.web.ErrorAttributes;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
@@ -34,6 +35,7 @@ public class RestErrorAutoConfiguration {
 	}
     
     @Bean
+    @ConditionalOnMissingBean(RestExceptionControllerAdvice.class)
     public RestExceptionControllerAdvice restExceptionControllerAdvice() {
     	return new RestExceptionControllerAdvice();
     }

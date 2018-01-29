@@ -16,7 +16,7 @@ public class IdGen {
 	private long workerId;
 	private long datacenterId;
 	private long sequence = 0L;
-	private long twepoch = 1468972800000L; // Thu, 04 Nov 2010 01:42:54 GMT
+	private long twepoch = 1511208000000L; // Thu, 04 Nov 2010 01:42:54 GMT
 	private long workerIdBits = 5L; // 节点ID长度
 	private long datacenterIdBits = 5L; // 数据中心ID长度
 	private long maxWorkerId = -1L ^ (-1L << workerIdBits); // 最大支持机器节点数0~31，一共32个

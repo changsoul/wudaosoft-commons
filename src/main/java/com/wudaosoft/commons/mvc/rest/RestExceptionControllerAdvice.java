@@ -17,6 +17,7 @@ package com.wudaosoft.commons.mvc.rest;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -36,6 +37,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.wudaosoft.commons.mvc.ResultData;
 import com.wudaosoft.commons.mvc.exception.ServiceException;
+import com.wudaosoft.commons.utils.StringUtils;
 
 /**
  * @author changsoul.wu
@@ -59,17 +61,24 @@ public class RestExceptionControllerAdvice extends ResponseEntityExceptionHandle
 
 	/**
 	 * @param resultClazz
-	 * @param codeMethod
-	 * @param messageMethod
+	 * @param codeName
+	 * @param messageName
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
 	 */
-	public RestExceptionControllerAdvice(Class<?> resultClazz, Method codeMethod, Method messageMethod) {
+	public RestExceptionControllerAdvice(Class<?> resultClazz, String codeName, String messageName)
+			throws SecurityException, NoSuchMethodException {
 		super();
 		Assert.notNull(resultClazz, "resultClazz must not be null");
-		Assert.notNull(codeMethod, "codeMethod must not be null");
-		Assert.notNull(messageMethod, "messageMethod must not be null");
+		Assert.hasText(codeName, "codeName must not be empty");
+		Assert.hasText(messageName, "messageName must not be empty");
 		this.resultClazz = resultClazz;
-		this.codeMethod = codeMethod;
-		this.messageMethod = messageMethod;
+		String codeNameSetterMethodName = "set" + StringUtils.capitalize(codeName);
+		String messageNameSetterMethodName = "set" + StringUtils.capitalize(messageName);
+		this.codeMethod = resultClazz.getMethod(codeNameSetterMethodName, int.class);
+		this.messageMethod = resultClazz.getMethod(messageNameSetterMethodName, String.class);
+		makeAccessible(this.codeMethod);
+		makeAccessible(this.messageMethod);
 	}
 
 	@Override
@@ -155,13 +164,13 @@ public class RestExceptionControllerAdvice extends ResponseEntityExceptionHandle
 			return new ResultData(code, msg);
 
 		try {
-			
+
 			Object resultData = resultClazz.newInstance();
 			codeMethod.invoke(resultData, code);
 			messageMethod.invoke(resultData, msg);
-			
+
 			return resultData;
-			
+
 		} catch (InstantiationException e) {
 			logger.error(e.getMessage(), e);
 		} catch (IllegalAccessException e) {
@@ -171,7 +180,14 @@ public class RestExceptionControllerAdvice extends ResponseEntityExceptionHandle
 		} catch (InvocationTargetException e) {
 			logger.error(e.getMessage(), e);
 		}
-		
+
 		return new ResultData(code, msg);
+	}
+
+	public void makeAccessible(Method method) {
+		if ((!Modifier.isPublic(method.getModifiers()) || !Modifier.isPublic(method.getDeclaringClass().getModifiers()))
+				&& !method.isAccessible()) {
+			method.setAccessible(true);
+		}
 	}
 }

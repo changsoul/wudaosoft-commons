@@ -25,11 +25,10 @@ public class WebUtils {
 	public static String getFullRequestUrl(HttpServletRequest request, boolean forceHttps) {
 
 		StringBuilder sb = new StringBuilder();
-		sb.append(forceHttps ? "https" : request.getScheme());
+		sb.append(forceHttps ? "https" : getScheme(request));
 		sb.append("://");
 		sb.append(request.getServerName());
-		sb.append(
-				(request.getServerPort() == 80 || request.getServerPort() == 443) ? "" : ":" + request.getServerPort());
+		sb.append((request.getServerPort() == 80 || request.getServerPort() == 443) ? "" : ":" + request.getServerPort());
 		sb.append(request.getContextPath());
 		sb.append(request.getServletPath());
 		sb.append(request.getQueryString() == null ? "" : "?" + request.getQueryString());
@@ -37,18 +36,17 @@ public class WebUtils {
 		return sb.toString();
 	}
 
-	public static String getWebApprUrl(HttpServletRequest request) {
-		return getWebApprUrl(request, false);
+	public static String getContextPathUrl(HttpServletRequest request) {
+		return getContextPathUrl(request, false);
 	}
 
-	public static String getWebApprUrl(HttpServletRequest request, boolean forceHttps) {
+	public static String getContextPathUrl(HttpServletRequest request, boolean forceHttps) {
 
 		StringBuilder sb = new StringBuilder();
-		sb.append(forceHttps ? "https" : request.getScheme());
+		sb.append(forceHttps ? "https" : getScheme(request));
 		sb.append("://");
 		sb.append(request.getServerName());
-		sb.append(
-				(request.getServerPort() == 80 || request.getServerPort() == 443) ? "" : ":" + request.getServerPort());
+		sb.append((request.getServerPort() == 80 || request.getServerPort() == 443) ? "" : ":" + request.getServerPort());
 		sb.append(request.getContextPath());
 
 		return sb.toString();
@@ -61,13 +59,29 @@ public class WebUtils {
 	public static String getServerUrl(HttpServletRequest request, boolean forceHttps) {
 
 		StringBuilder sb = new StringBuilder();
-		sb.append(forceHttps ? "https" : request.getScheme());
+		sb.append(forceHttps ? "https" : getScheme(request));
 		sb.append("://");
 		sb.append(request.getServerName());
-		sb.append(
-				(request.getServerPort() == 80 || request.getServerPort() == 443) ? "" : ":" + request.getServerPort());
+		sb.append((request.getServerPort() == 80 || request.getServerPort() == 443) ? "" : ":" + request.getServerPort());
 
 		return sb.toString();
+	}
+
+	public static String getScheme(HttpServletRequest request) {
+
+		String scheme = request.getHeader("X-Forwarded-Proto");
+
+		if (StringUtils.hasText(scheme) && !"unknown".equalsIgnoreCase(scheme)) {
+			return scheme;
+		}
+
+		scheme = request.getHeader("X-Forwarded-Scheme");
+
+		if (StringUtils.hasText(scheme) && !"unknown".equalsIgnoreCase(scheme)) {
+			return scheme;
+		}
+
+		return request.getScheme();
 	}
 
 	public static String getIpAddr(HttpServletRequest request) {
