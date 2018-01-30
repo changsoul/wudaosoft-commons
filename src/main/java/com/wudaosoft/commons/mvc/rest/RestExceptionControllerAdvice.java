@@ -22,11 +22,13 @@ import java.lang.reflect.Modifier;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.ConversionNotSupportedException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -37,7 +39,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.wudaosoft.commons.mvc.ResultData;
 import com.wudaosoft.commons.mvc.exception.ServiceException;
-import com.wudaosoft.commons.utils.StringUtils;
+import com.wudaosoft.commons.mvc.i18n.Lang;
+import com.wudaosoft.commons.mvc.i18n.LangType;
+import com.wudaosoft.commons.mvc.i18n.RestErrorI18N;
 
 /**
  * @author changsoul.wu
@@ -51,6 +55,19 @@ public class RestExceptionControllerAdvice extends ResponseEntityExceptionHandle
 	private Method codeMethod;
 
 	private Method messageMethod;
+
+	private RestErrorI18N i18nBean;
+
+	private Lang lang = new Lang();
+
+	@Autowired(required = false)
+	public void setI18nBean(RestErrorI18N i18nBean) {
+		this.i18nBean = i18nBean;
+	}
+
+	public void setLang(Lang lang) {
+		this.lang = lang;
+	}
 
 	/**
 	 * 
@@ -73,8 +90,8 @@ public class RestExceptionControllerAdvice extends ResponseEntityExceptionHandle
 		Assert.hasText(codeName, "codeName must not be empty");
 		Assert.hasText(messageName, "messageName must not be empty");
 		this.resultClazz = resultClazz;
-		String codeNameSetterMethodName = "set" + StringUtils.capitalize(codeName);
-		String messageNameSetterMethodName = "set" + StringUtils.capitalize(messageName);
+		String codeNameSetterMethodName = "set" + com.wudaosoft.commons.utils.StringUtils.capitalize(codeName);
+		String messageNameSetterMethodName = "set" + com.wudaosoft.commons.utils.StringUtils.capitalize(messageName);
 		this.codeMethod = resultClazz.getMethod(codeNameSetterMethodName, int.class);
 		this.messageMethod = resultClazz.getMethod(messageNameSetterMethodName, String.class);
 		makeAccessible(this.codeMethod);
@@ -85,25 +102,29 @@ public class RestExceptionControllerAdvice extends ResponseEntityExceptionHandle
 	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
 
+		HttpServletRequest req = null;
+
+		if (request instanceof NativeWebRequest) {
+			req = ((NativeWebRequest) request).getNativeRequest(HttpServletRequest.class);
+		}
+
 		if (HttpStatus.NOT_FOUND.equals(status) || HttpStatus.METHOD_NOT_ALLOWED.equals(status)
 				|| HttpStatus.UNSUPPORTED_MEDIA_TYPE.equals(status) || HttpStatus.NOT_ACCEPTABLE.equals(status)) {
 
-			return new ResponseEntity<Object>(genResultData(status.value(), status.getReasonPhrase()), status);
+			return new ResponseEntity<Object>(genResultData(status.value(), status.getReasonPhrase(), req), status);
 		} else if (HttpStatus.BAD_REQUEST.equals(status) || ex instanceof MissingPathVariableException) {
-
-			HttpServletRequest req = (HttpServletRequest) ((NativeWebRequest) request)
-					.getNativeRequest(HttpServletRequest.class);
 
 			ServiceException sexc = ServiceException.PARAMETER_EXCEPTION;
 
 			logger.warn("[" + req.getMethod() + "] - " + req.getRequestURL() + ". " + ex.getMessage());
 
-			return new ResponseEntity<Object>(genResultData(sexc.getErrCode(), sexc.getErrMsg()), HttpStatus.OK);
+			return new ResponseEntity<Object>(genResultData(sexc.getErrCode(), sexc.getErrMsg(), req), HttpStatus.OK);
 		} else if (HttpStatus.INTERNAL_SERVER_ERROR.equals(status)) {
 
 			logger.error(ex.getMessage(), ex);
 
-			return new ResponseEntity<Object>(genResultData(status.value(), status.getReasonPhrase()), HttpStatus.OK);
+			return new ResponseEntity<Object>(genResultData(status.value(), status.getReasonPhrase(), req),
+					HttpStatus.OK);
 		} else {
 
 			logger.error(ex.getMessage(), ex);
@@ -137,7 +158,7 @@ public class RestExceptionControllerAdvice extends ResponseEntityExceptionHandle
 		logger.debug(ex.getMessage() + " -- at " + ex.getStackTrace()[0]);
 
 		ServiceException exs = (ServiceException) ex;
-		return new ResponseEntity<Object>(genResultData(exs.getErrCode(), exs.getErrMsg()), HttpStatus.OK);
+		return new ResponseEntity<Object>(genResultData(exs.getErrCode(), exs.getErrMsg(), request), HttpStatus.OK);
 	}
 
 	@ExceptionHandler
@@ -147,7 +168,8 @@ public class RestExceptionControllerAdvice extends ResponseEntityExceptionHandle
 
 		logger.error(ex.getMessage(), ex);
 
-		return new ResponseEntity<Object>(genResultData(status.value(), status.getReasonPhrase()), HttpStatus.OK);
+		return new ResponseEntity<Object>(genResultData(status.value(), status.getReasonPhrase(), request),
+				HttpStatus.OK);
 	}
 
 	private HttpStatus getStatus(HttpServletRequest request) {
@@ -158,16 +180,37 @@ public class RestExceptionControllerAdvice extends ResponseEntityExceptionHandle
 		return HttpStatus.valueOf(statusCode);
 	}
 
-	private Object genResultData(int code, String msg) {
+	private Object genResultData(int code, String msg, HttpServletRequest request) {
+
+		String i18nMsg = null;
+
+		if (i18nBean != null) {
+			String langStr = null;
+
+			if (lang.getLangType().equals(LangType.Param)) {
+				langStr = request.getParameter(lang.getLangKey());
+
+			} else if (lang.getLangType().equals(LangType.Header)) {
+				langStr = request.getHeader(lang.getLangKey());
+			}
+
+			if (StringUtils.hasText(langStr)) {
+				i18nMsg = i18nBean.get(langStr, code);
+			}
+		}
+
+		if (i18nMsg == null) {
+			i18nMsg = msg;
+		}
 
 		if (resultClazz == null)
-			return new ResultData(code, msg);
+			return new ResultData(code, i18nMsg);
 
 		try {
 
 			Object resultData = resultClazz.newInstance();
 			codeMethod.invoke(resultData, code);
-			messageMethod.invoke(resultData, msg);
+			messageMethod.invoke(resultData, i18nMsg);
 
 			return resultData;
 
@@ -181,10 +224,10 @@ public class RestExceptionControllerAdvice extends ResponseEntityExceptionHandle
 			logger.error(e.getMessage(), e);
 		}
 
-		return new ResultData(code, msg);
+		return new ResultData(code, i18nMsg);
 	}
 
-	public void makeAccessible(Method method) {
+	private void makeAccessible(Method method) {
 		if ((!Modifier.isPublic(method.getModifiers()) || !Modifier.isPublic(method.getDeclaringClass().getModifiers()))
 				&& !method.isAccessible()) {
 			method.setAccessible(true);

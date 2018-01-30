@@ -13,45 +13,45 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.wudaosoft.commons.xml;
+package com.wudaosoft.commons.mvc.i18n;
+
+import org.springframework.util.Assert;
 
 /** 
  * @author Changsoul Wu
  * 
  */
-public class XmlException extends RuntimeException {
+public class Lang {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3472079661190010563L;
+	private String langKey = "lang";
+	
+	private LangType langType = LangType.Param;
 
-	/**
-	 * 
-	 */
-	public XmlException() {
+	public Lang() {
+		super();
 	}
 
-	/**
-	 * @param message
-	 */
-	public XmlException(String message) {
-		super(message);
+	public Lang(String langKey, LangType langType) {
+		super();
+		this.setLangKey(langKey);
+		this.setLangType(langType);
 	}
 
-	/**
-	 * @param cause
-	 */
-	public XmlException(Throwable cause) {
-		super(cause);
+	public String getLangKey() {
+		return langKey;
 	}
 
-	/**
-	 * @param message
-	 * @param cause
-	 */
-	public XmlException(String message, Throwable cause) {
-		super(message, cause);
+	public void setLangKey(String langKey) {
+		Assert.hasText(langKey, "langKey must not be empty");
+		this.langKey = langKey;
 	}
 
+	public LangType getLangType() {
+		return langType;
+	}
+
+	public void setLangType(LangType langType) {
+		Assert.notNull(langType, "langType must not be null");
+		this.langType = langType;
+	}
 }

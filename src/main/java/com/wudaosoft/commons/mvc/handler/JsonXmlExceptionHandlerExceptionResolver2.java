@@ -1,11 +1,18 @@
-/* 
- * Copyright(c)2010-2014 WUDAOSOFT.COM
+/**
+ *    Copyright 2009-2018 Wudao Software Studio(wudaosoft.com)
  * 
- * Email:changsoul.wu@gmail.com
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
  * 
- * QQ:275100589
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
  */
-
 package com.wudaosoft.commons.mvc.handler;
 
 import java.io.IOException;
@@ -47,7 +54,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import com.wudaosoft.commons.mvc.ReturnData;
 import com.wudaosoft.commons.mvc.exception.ParameterException;
 import com.wudaosoft.commons.mvc.exception.ServiceException;
-import com.wudaosoft.commons.mvc.i18n.I18NInterface;
+import com.wudaosoft.commons.mvc.i18n.RestErrorI18N;
 
 /**
  * @author Changsoul Wu
@@ -81,7 +88,7 @@ public class JsonXmlExceptionHandlerExceptionResolver2 extends
 	
 	private String i18nKey;
 	
-	private I18NInterface i18nBean;
+	private RestErrorI18N i18nBean;
 
 	public String getDefaultErrorView() {
 		return defaultErrorView;
@@ -99,11 +106,11 @@ public class JsonXmlExceptionHandlerExceptionResolver2 extends
 		this.i18nKey = i18nKey;
 	}
 
-	public I18NInterface getI18nBean() {
+	public RestErrorI18N getI18nBean() {
 		return i18nBean;
 	}
 
-	public void setI18nBean(I18NInterface i18nBean) {
+	public void setI18nBean(RestErrorI18N i18nBean) {
 		this.i18nBean = i18nBean;
 	}
 	

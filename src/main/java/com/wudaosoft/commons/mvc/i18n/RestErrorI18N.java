@@ -13,21 +13,19 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package com.wudaosoft.commons.utils;
+package com.wudaosoft.commons.mvc.i18n;
 
-import java.util.Random;
-
-/**
- * 返回随机数,范围.比如6 返回0-5
+/** 
+ * @author Changsoul Wu
  * 
- * @author Changsoul Wu 
  */
-public class RandomGenerator {
-	static Random ran = new Random();
-
-	public static int ramdomUnm(int range) {
-		int num = -1;
-		num = Math.abs(ran.nextInt()) % range;
-		return num;
-	}
+public interface RestErrorI18N {
+	
+	/**
+	 * 多语言
+	 * @param lang 语言
+	 * @param code 代码
+	 * @return
+	 */
+	String get(String lang, Object code);
 }
