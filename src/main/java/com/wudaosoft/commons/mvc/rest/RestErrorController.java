@@ -86,8 +86,8 @@ public class RestErrorController extends BasicErrorController {
 //			result = "{\"errCode\": " + model.get("status") + ", \"errMsg\": \"" + model.get("error") + "\"}";
 //	
 //			result = "<html><body><h1>Information Page</h1>" + "<p>There are something bad to happen. For more information please set the \"Accept\" with \"application/json;charset=UTF-8\" or \"application/xml;charset=UTF-8\" for HTTP request header.</p></body></html>";
-			result = "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>Notice</title>\n</head><body>\n<h1>Notice</h1>\n"
-					+ "<p>There are something bad to happen. </p>\n</body></html>";
+			result = "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>Warning</title>\n</head><body>\n<h1>Warning</h1>\n"
+					+ "<p>There are something bad to happen for this requested. </p>\n</body></html>";
 		}
 
 		try {
