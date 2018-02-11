@@ -73,7 +73,8 @@ public class RestErrorController extends BasicErrorController {
 			// response.setContentType(MediaType.TEXT_HTML_VALUE);
 
 			Map<String, Object> model = Collections.unmodifiableMap(getErrorAttributes(request, false));
-			result = "<html><body><h1>Not Found</h1>" + "<p>for " + model.get("path") + "</p>";
+			result = "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>404 Not Found</title>\n</head><body>\n<h1>Not Found</h1>\n" 
+					+ "<p>The requested URL " + model.get("path") + " was not found on this server.</p>\n</body></html>";
 
 //			result = "<html><body><h1>Not Found Page</h1>" + "<p>This application has no explicit mapping for "
 //			+ model.get("path") + ", so you are seeing this as a fallback.</p>" + "<div id='created'>"
@@ -85,7 +86,8 @@ public class RestErrorController extends BasicErrorController {
 //			result = "{\"errCode\": " + model.get("status") + ", \"errMsg\": \"" + model.get("error") + "\"}";
 //	
 //			result = "<html><body><h1>Information Page</h1>" + "<p>There are something bad to happen. For more information please set the \"Accept\" with \"application/json;charset=UTF-8\" or \"application/xml;charset=UTF-8\" for HTTP request header.</p></body></html>";
-			result = "<html><body><h1>Information</h1>" + "<p>There are something bad to happen. </p></body></html>";
+			result = "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<html><head>\n<title>Notice</title>\n</head><body>\n<h1>Notice</h1>\n"
+					+ "<p>There are something bad to happen. </p>\n</body></html>";
 		}
 
 		try {
