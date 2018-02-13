@@ -16,13 +16,13 @@ Wudaosoft Common Library.
 <dependency>
     <groupId>com.wudaosoft</groupId>
     <artifactId>wudaosoft-commons</artifactId>
-    <version>1.1.5</version>
+    <version>1.1.6</version>
 </dependency>
 ```
 ## Gradle/Grails
 
 ``` groovy
-compile 'com.wudaosoft:wudaosoft-commons:1.1.5'
+compile 'com.wudaosoft:wudaosoft-commons:1.1.6'
 ```
 ### *License*
 
