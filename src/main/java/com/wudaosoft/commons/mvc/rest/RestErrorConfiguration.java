@@ -15,10 +15,6 @@
  */
 package com.wudaosoft.commons.mvc.rest;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.web.BasicErrorController;
-import org.springframework.boot.autoconfigure.web.ErrorAttributes;
-import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,16 +23,10 @@ import org.springframework.context.annotation.Configuration;
  *
  */
 @Configuration
-public class RestErrorAutoConfiguration {
+public class RestErrorConfiguration {
 
 	@Bean
-	public BasicErrorController basicErrorController(ErrorAttributes errorAttributes, ServerProperties serverProperties) {
-		return new RestErrorController(errorAttributes, serverProperties.getError());
+	public RestExceptionControllerAdvice restExceptionControllerAdvice() {
+		return new RestExceptionControllerAdvice();
 	}
-    
-    @Bean
-    @ConditionalOnMissingBean(RestExceptionControllerAdvice.class)
-    public RestExceptionControllerAdvice restExceptionControllerAdvice() {
-    	return new RestExceptionControllerAdvice();
-    }
 }

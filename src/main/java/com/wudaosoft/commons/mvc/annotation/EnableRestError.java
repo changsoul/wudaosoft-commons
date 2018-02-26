@@ -21,7 +21,7 @@ import java.lang.annotation.Target;
 
 import org.springframework.context.annotation.Import;
 
-import com.wudaosoft.commons.mvc.rest.RestErrorAutoConfiguration;
+import com.wudaosoft.commons.mvc.rest.RestErrorConfiguration;
 
 /** 
  * @author Changsoul Wu
@@ -30,7 +30,7 @@ import com.wudaosoft.commons.mvc.rest.RestErrorAutoConfiguration;
 @Retention(value = java.lang.annotation.RetentionPolicy.RUNTIME)
 @Target(value = { java.lang.annotation.ElementType.TYPE })
 @Documented
-@Import({RestErrorAutoConfiguration.class})
+@Import({RestErrorConfiguration.class})
 public @interface EnableRestError {
 
 }

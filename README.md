@@ -16,20 +16,20 @@ Wudaosoft Common Library.
 <dependency>
     <groupId>com.wudaosoft</groupId>
     <artifactId>wudaosoft-commons</artifactId>
-    <version>1.1.6</version>
+    <version>1.1.7</version>
 </dependency>
 ```
 ## Gradle/Grails
 
 ``` groovy
-compile 'com.wudaosoft:wudaosoft-commons:1.1.6'
+compile 'com.wudaosoft:wudaosoft-commons:1.1.7'
 ```
 ### *License*
 
 wudaosoft-commons is released under the [Apache 2.0 license](LICENSE).
 
 ```
-Copyright 2009-2017 Wudao Software Studio
+Copyright 2009-2018 Wudao Software Studio
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
