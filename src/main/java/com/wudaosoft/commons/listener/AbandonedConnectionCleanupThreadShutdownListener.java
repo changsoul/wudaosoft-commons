@@ -26,7 +26,7 @@ import javax.servlet.ServletContextListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mysql.jdbc.AbandonedConnectionCleanupThread;
+import com.mysql.cj.jdbc.AbandonedConnectionCleanupThread;
 
 /** 
  * @author Changsoul Wu
@@ -54,13 +54,13 @@ public class AbandonedConnectionCleanupThreadShutdownListener implements Servlet
             	logger.warn(String.format("Error deregistering driver %s", d), ex);
             }
         }
-        try {
-            AbandonedConnectionCleanupThread.shutdown();
+//        try {
+            AbandonedConnectionCleanupThread.uncheckedShutdown();
             logger.info("Shutdown AbandonedConnectionCleanupThread.");
-        } catch (InterruptedException e) {
-            logger.warn("SEVERE problem cleaning up: " + e.getMessage());
-            e.printStackTrace();
-        }
+//        } catch (InterruptedException e) {
+//            logger.warn("SEVERE problem cleaning up: " + e.getMessage());
+//            e.printStackTrace();
+//        }
 	}
 
 }
