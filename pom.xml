@@ -17,7 +17,7 @@
 		<servlet-api.version>4.0.1</servlet-api.version>
 		<commons-codec.version>1.13</commons-codec.version>
 		<jackson.version>2.10.3</jackson.version>
-		<fastjson.version>1.2.68</fastjson.version>
+		<fastjson.version>1.2.83</fastjson.version>
 		<spring.version>5.2.5.RELEASE</spring.version>
 		<spring-data-jpa.version>2.2.6.RELEASE</spring-data-jpa.version>
 		<hibernate.version>5.4.12.Final</hibernate.version>
